@@ -1,0 +1,4 @@
+# === memcached-priv ===
+# allow memcached on priv net
+$IPTABLES -A INPUT -p tcp -s $PRIV_NET --dport 11211 -j ACCEPT
+

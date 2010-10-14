@@ -1,0 +1,4 @@
+# === puppetmaster-from-corp ===
+# allow puppet connections from corp
+$IPTABLES -A INPUT -p tcp -s $CORP_OFFICE --dport 8140 -j ACCEPT
+

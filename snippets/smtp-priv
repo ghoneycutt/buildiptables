@@ -1,0 +1,4 @@
+# === smtp-priv ===
+# allow mail on priv net
+$IPTABLES -A INPUT -p tcp -s $PRIV_NET --dport 25 -j ACCEPT
+

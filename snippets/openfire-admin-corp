@@ -1,0 +1,4 @@
+# === openfire-admin-corp ===
+# allow admin access for corp office
+$IPTABLES -A INPUT -p tcp -s $CORP_OFFICE --dport 9090 -j ACCEPT
+

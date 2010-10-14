@@ -1,0 +1,7 @@
+header
+defines
+generic
+generic-eth0
+ssh-trusted
+munin-priv
+log-dropped-connections

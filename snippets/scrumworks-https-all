@@ -1,0 +1,3 @@
+# === scrumworks-https-all ===
+$IPTABLES -A INPUT -p tcp --dport 8443 -j ACCEPT
+

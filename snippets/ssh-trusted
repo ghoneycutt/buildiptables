@@ -1,0 +1,9 @@
+# === ssh-trusted ===
+$IPTABLES -A INPUT -s $YOUR_HOME -p tcp --dport 22 -j ACCEPT
+$IPTABLES -A INPUT -s $SITE_FOO -p tcp --dport 22 -j ACCEPT
+$IPTABLES -A INPUT -s $SITE_BAR -p tcp --dport 22 -j ACCEPT
+$IPTABLES -A INPUT -s $WWW1 -p tcp --dport 22 -j ACCEPT
+$IPTABLES -A INPUT -s $DB1 -p tcp --dport 22 -j ACCEPT
+$IPTABLES -A INPUT -s $PRIV_NET -p tcp --dport 22 -j ACCEPT
+$IPTABLES -A INPUT -s $CORP_OFFICE -p tcp --dport 22 -j ACCEPT
+

@@ -1,0 +1,7 @@
+# === generic-eth0 ===
+# Allow new outbound connections on eth0 and keep state
+$IPTABLES -A OUTPUT -o eth0 -m state --state NEW,RELATED,ESTABLISHED -j ACCEPT
+
+# Allow icmp echo request on eth0
+$IPTABLES -A INPUT -i eth0 -p icmp --icmp-type echo-request -j ACCEPT
+

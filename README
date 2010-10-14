@@ -1,0 +1,36 @@
+About:
+======
+
+buildiptables is a simple bash script to compile snippets into an iptables
+script. It consists of three directories: snippets, scripts, and hosts.
+
+snippets - firewall rules that correlate with some function
+hosts    - files that correspond to a host and list all the snippets, in order, to be compiled
+scripts  - compiled scripts to be installed on your hosts
+
+Howto:
+======
+
+1. create hosts/<hostname> and add snippets, one per line - order matters
+
+2. run ./buildiptables <hostname> or just ./buildall.sh
+
+3. scp scripts/<hostname> to host
+
+4. login to host and install the script somewhere.
+    $ sudo install -o root -g root -m 700 ~/iptables.sh /root/iptables.sh 
+
+5. run the script
+    $ sudo /root/iptables.sh
+
+6. update your firewall
+    $ sudo /sbin/service iptables save active
+    $ sudo /sbin/service iptables start
+
+
+Snippets:
+=========
+
+By convention, each snippet's first line is === <filename> ===
+
+Each snippet should also end with a blank line for readability in the compiled script

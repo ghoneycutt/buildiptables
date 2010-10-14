@@ -1,0 +1,4 @@
+# === dns-all ===
+$IPTABLES -A INPUT -p tcp --dport 53 -j ACCEPT
+$IPTABLES -A INPUT -p udp --dport 53 -j ACCEPT
+

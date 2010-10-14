@@ -1,0 +1,4 @@
+# === log-dropped-connections ===
+$IPTABLES -A INPUT -p tcp -m state --state NEW -j LOG --log-level INFO --log-prefix "DROPPED TCP CONN:"
+$IPTABLES -A INPUT -p udp -j LOG --log-level INFO --log-prefix "DROPPED UDP PACKET:"
+

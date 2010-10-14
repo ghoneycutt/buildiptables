@@ -1,0 +1,104 @@
+#!/bin/bash
+#
+# buildiptables - copyright 2009 - Garrett Honeycutt - code@garretthoneycutt.com
+#
+# License: GPLv2
+#
+# Purpose:
+#   create iptables scripts based on configuration snippets
+#
+# Usage: ./buildiptables <hostname>
+#
+# Returns: 0 on success, non-zero on failure
+#
+# Details:
+#   the HOSTDIR holds text files that should contain one snippet file per line
+#   lines beginning with a # and empty lines are not included
+#
+
+HOSTDIR="hosts"
+SCRIPTSDIR="scripts"
+SNIPPETSDIR="snippets"
+
+# ensure argument is passed
+if [ $# -lt 1 ]; then
+    echo "Usage: $0 <hostname>"
+    exit 1
+fi
+
+# check that HOSTDIR exists
+if [ ! -d $HOSTDIR ]; then
+    echo "Directory $HOSTDIR does not exist"
+    exit 2
+fi
+
+# check that SCRIPTSDIR exists
+if [ ! -d $SCRIPTSDIR ]; then
+    echo "Directory $SCRIPTSDIR does not exist"
+    exit 2
+fi
+
+# check that SNIPPETSDIR exists
+if [ ! -d $SNIPPETSDIR ]; then
+    echo "Directory $SNIPPETSDIR does not exist"
+    exit 2
+fi
+
+# ensure host script is there and executable
+if [ ! -x ${HOSTDIR}/$1 ]; then
+    echo "Script ${HOSTDIR}/$1 does not exist or is not executable"
+    exit 3
+fi
+
+# remove tmp file if it exists
+if [ -r ${SCRIPTSDIR}/$1.tmp ]; then
+    /bin/rm -f ${SCRIPTSDIR}/$1.tmp
+    if [ $? -ne 0 ]; then
+        echo "Fail: /bin/rm -f ${SCRIPTSDIR}/$1.tmp"
+        exit 4
+    fi # rm check
+fi # tmp file check
+
+# function to move script from old .tmp to new
+function move_script() {
+    /bin/mv ${SCRIPTSDIR}/$1.tmp ${SCRIPTSDIR}/$1
+    if [ $? -ne 0 ]; then
+        echo "Fail: mv ${SCRIPTSDIR}/$1.tmp ${SCRIPTSDIR}/$1"
+        exit 6
+    fi # mv check
+} # move_script
+
+# build tmp script from snippets
+for snippet in $(/usr/bin/grep -ve ^$ -e ^\# ${HOSTDIR}/$1)
+do
+    # check that snippets exist
+    if [ ! -r ${SNIPPETSDIR}/${snippet} ]; then
+        echo "Snippet ${SNIPPETSDIR}/${snippet} does not exist or is not readable"
+        exit 5
+    fi # snippet exists
+    
+    # create tmp file
+    /bin/cat ${SNIPPETSDIR}/$snippet >> ${SCRIPTSDIR}/$1.tmp
+    if [ $? -ne 0 ]; then
+        echo "Fail: /bin/cat  ${SNIPPETSDIR}/$snippet >> ${SCRIPTSDIR}/$1.tmp"
+        exit 6
+    fi # cat check
+done
+
+# see if new tmp script and old script are the same and only update if they diff
+if [ -r ${SCRIPTSDIR}/$1 ]; then
+    /usr/bin/diff ${SCRIPTSDIR}/$1 ${SCRIPTSDIR}/$1.tmp 1>/dev/null
+
+    # if they diff, then mv tmp to script
+    if [ $? -ne 0 ]; then
+        # if we got this far, then the tmp script is valid and all the snippets exist
+        # mv tmp file to actual script
+        move_script $1
+    else # if they dont diff, remove the tmp
+        /bin/rm -f ${SCRIPTSDIR}/$1.tmp
+    fi # diff check
+else # first run for host, so mv the tmp file
+    move_script $1
+fi # previous run check
+
+exit 0

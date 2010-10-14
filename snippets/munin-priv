@@ -1,0 +1,4 @@
+# === munin-priv ===
+# allow munin on priv net
+$IPTABLES -A INPUT -p tcp -s $PRIV_NET --dport 4949 -j ACCEPT
+

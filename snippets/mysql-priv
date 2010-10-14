@@ -1,0 +1,4 @@
+# === mysql-priv ===
+# allow mysql on priv net
+$IPTABLES -A INPUT -p tcp -s $PRIV_NET --dport 3306 -j ACCEPT
+

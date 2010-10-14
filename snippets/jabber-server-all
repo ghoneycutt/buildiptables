@@ -1,0 +1,3 @@
+# === jabber-server-all ===
+$IPTABLES -A INPUT -p tcp --dport 5269 -j ACCEPT
+

@@ -1,0 +1,4 @@
+# === openfire-admin-ssl-corp ===
+# allow ssl admin access for corp office
+$IPTABLES -A INPUT -p tcp -s $CORP_OFFICE --dport 9091 -j ACCEPT
+

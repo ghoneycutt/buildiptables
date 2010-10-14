@@ -1,0 +1,18 @@
+# === generic ===
+# zero counters, flush chains, and delete chains
+$IPTABLES -Z
+$IPTABLES -F
+$IPTABLES -X
+
+# Default Deny
+$IPTABLES -P INPUT DROP
+$IPTABLES -P OUTPUT DROP
+$IPTABLES -P FORWARD DROP
+
+# Allow all loopback traffic
+$IPTABLES -A INPUT -p ALL -i lo -j ACCEPT
+$IPTABLES -A OUTPUT -p ALL -o lo -j ACCEPT
+
+# Keep state on all inbound traffic
+$IPTABLES -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+

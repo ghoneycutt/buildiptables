@@ -1,0 +1,4 @@
+# === solr-priv ===
+# allow solr on priv net
+$IPTABLES -A INPUT -p tcp -s $PRIV_NET --dport 8983 -j ACCEPT
+

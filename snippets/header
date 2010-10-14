@@ -1,0 +1,14 @@
+############################################
+# This file is generated via a script
+# 
+# http://github.com/ghoneycutt/buildiptables
+#
+# Do *NOT* edit manually
+############################################
+
+# Show commands as they are executed
+set -x
+
+# Set Variables
+IPTABLES="/sbin/iptables"
+
